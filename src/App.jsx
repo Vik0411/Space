@@ -15,12 +15,16 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleStartDateChange = (date) => {
-    setStartDate(date);
+    const formattedDate = date.toISOString().split("T")[0];
+    // Update state and call the onChange callback with formatted date
+    setStartDate(formattedDate);
     checkInterval(date, endDate);
   };
 
   const handleEndDateChange = (date) => {
-    setEndDate(date);
+    const formattedDate = date.toISOString().split("T")[0];
+    // Update state and call the onChange callback with formatted date
+    setEndDate(formattedDate);
     checkInterval(startDate, date);
   };
 
@@ -31,26 +35,29 @@ function App() {
         setErrorMessage(
           "Interval between dates must be less than or equal to 7 days."
         );
+        // disable submit btn also
       } else {
         setErrorMessage("");
       }
     }
   };
 
-  // function getClosebyAsteroids() {
-  //   axios
-  //     .get(
-  //       `https://api.nasa.gov/neo/rest/v1/feed?start_date=${selectedDate}&end_date=${selectedEndDate}&api_key=${apiKey}`
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data.near_earth_objects[0]);
-  //       // adjust to select all
-  //       setAsteroids(response.data.near_earth_objects[0]);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }
+  function getClosebyAsteroids() {
+    axios
+      .get(
+        `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`
+      )
+      .then((response) => {
+        const insideArraysOfAsteroids = Object.values(
+          response.data.near_earth_objects
+        ).flatMap((array) => array);
+        console.log(insideArraysOfAsteroids);
+        setAsteroids(insideArraysOfAsteroids);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
   return (
     <>
       <div style={{ display: "flex", flexFlow: "column" }}>
@@ -68,9 +75,9 @@ function App() {
         />
         <button
           type="submit"
-          // onClick={() => {
-          //   getClosebyAsteroids();
-          // }}
+          onClick={() => {
+            getClosebyAsteroids();
+          }}
         >
           submit
         </button>
@@ -78,11 +85,9 @@ function App() {
       </div>
       <div>
         {asteroids.map((asteroid) => {
-          return (
-            <li key={asteroid.close_approach_data[0].miss_distance.kilometers}>
-              {asteroid.close_approach_data[0].miss_distance.kilometers}
-            </li>
-          );
+          let astDistance =
+            asteroid.close_approach_data[0].miss_distance.kilometers;
+          return <li key={astDistance}>{astDistance}</li>;
         })}
       </div>
     </>
