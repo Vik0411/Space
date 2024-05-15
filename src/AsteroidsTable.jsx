@@ -8,9 +8,9 @@ function AsteroidsTable({ asteroids }) {
         <table key={asteroid.name} style={{ border: "1px solid red" }}>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Diameter</th>
-              <th>How far</th>
+              <th>Asteroid name</th>
+              <th>Diameter (km)</th>
+              <th>Miss distance from Earth (km)</th>
               <th>When</th>
             </tr>
           </thead>
@@ -18,7 +18,7 @@ function AsteroidsTable({ asteroids }) {
             <tr>
               <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
               <td>
-                {asteroid.estimated_diameter.kilometers.estimated_diameter_max}
+                {`${asteroid.estimated_diameter.kilometers.estimated_diameter_min}-${asteroid.estimated_diameter.kilometers.estimated_diameter_max}`}
               </td>
               <td>
                 {asteroid.close_approach_data[0].miss_distance.kilometers}
