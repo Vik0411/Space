@@ -3,64 +3,66 @@ import "./App.css";
 import axios from "axios";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { checkInterval, apiKey, url } from "./utils";
 
 function App() {
   const [asteroids, setAsteroids] = useState([]);
-  // const [selectedDate, setSelectedDate] = useState("2024-05-13");
-  // const [selectedEndDate, setSelectedEndDate] = useState("2024-05-20");
-  const apiKey = "3lIka5CXiRJQ0hHNEPilFSSFkP8tg33KRaDeQyvM";
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  //prefilled on start
+  const today = new Date();
+  const todayFormatted = today.toISOString().split("T")[0];
+  const sevenDaysLater = new Date(today);
+  sevenDaysLater.setDate(today.getDate() + 7);
+  const sevenFormatted = sevenDaysLater.toISOString().split("T")[0];
+
+  const [startDate, setStartDate] = useState(todayFormatted);
+  const [endDate, setEndDate] = useState(sevenFormatted);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleStartDateChange = (date) => {
     const formattedDate = date.toISOString().split("T")[0];
-    // Update state and call the onChange callback with formatted date
     setStartDate(formattedDate);
-    checkInterval(date, endDate);
+    checkInterval(date, endDate, setErrorMessage, setIsDisabled);
   };
 
   const handleEndDateChange = (date) => {
     const formattedDate = date.toISOString().split("T")[0];
-    // Update state and call the onChange callback with formatted date
     setEndDate(formattedDate);
-    checkInterval(startDate, date);
+    checkInterval(startDate, date, setErrorMessage, setIsDisabled);
   };
 
-  const checkInterval = (start, end) => {
-    if (start && end) {
-      const intervalInDays = Math.abs((end - start) / (1000 * 60 * 60 * 24));
-      if (intervalInDays > 7) {
-        setErrorMessage(
-          "Interval between dates must be less than or equal to 7 days."
-        );
-        // disable submit btn also
-      } else {
-        setErrorMessage("");
-      }
+  async function getClosebyAsteroids() {
+    try {
+      const response = await axios.get(
+        `${url}start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`
+      );
+
+      const insideArraysOfAsteroids = Object.values(
+        response.data.near_earth_objects
+      ).flatMap((array) => array);
+
+      insideArraysOfAsteroids.sort(
+        (a, b) =>
+          Number(a.close_approach_data[0].miss_distance.kilometers) -
+          Number(b.close_approach_data[0].miss_distance.kilometers)
+      );
+
+      setAsteroids(insideArraysOfAsteroids);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  };
-
-  function getClosebyAsteroids() {
-    axios
-      .get(
-        `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`
-      )
-      .then((response) => {
-        const insideArraysOfAsteroids = Object.values(
-          response.data.near_earth_objects
-        ).flatMap((array) => array);
-        console.log(insideArraysOfAsteroids);
-        setAsteroids(insideArraysOfAsteroids);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
   }
+
   return (
     <>
-      <div style={{ display: "flex", flexFlow: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          alignItems: "center",
+        }}
+      >
         <h2>Select Start Date</h2>
         <ReactDatePicker
           selected={startDate}
@@ -74,7 +76,9 @@ function App() {
           dateFormat="yyyy-MM-dd"
         />
         <button
+          style={{ width: "100px", textAlign: "center", margin: "20px 20px" }}
           type="submit"
+          disabled={isDisabled}
           onClick={() => {
             getClosebyAsteroids();
           }}
@@ -85,9 +89,37 @@ function App() {
       </div>
       <div>
         {asteroids.map((asteroid) => {
-          let astDistance =
-            asteroid.close_approach_data[0].miss_distance.kilometers;
-          return <li key={astDistance}>{astDistance}</li>;
+          let closeApproachData = asteroid.close_approach_data[0];
+          let sortedDistances = closeApproachData.miss_distance.kilometers;
+
+          return (
+            <table
+              style={{
+                border: "1px solid red",
+              }}
+              key={closeApproachData.miss_distance.kilometers}
+            >
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Diameter</th>
+                  <th>How far</th>
+                  <th>When</th>
+                </tr>
+              </thead>
+              <tr>
+                <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
+                <td>
+                  {
+                    asteroid.estimated_diameter.kilometers
+                      .estimated_diameter_max
+                  }
+                </td>
+                <td>{sortedDistances}</td>
+                <td>{closeApproachData.close_approach_date_full}</td>
+              </tr>
+            </table>
+          );
         })}
       </div>
     </>
