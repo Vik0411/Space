@@ -15,6 +15,7 @@ function AsteroidsTable({ asteroids }) {
             </tr>
           </thead>
           <tbody>
+            {/* round all the numbers */}
             <tr>
               <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
               <td>

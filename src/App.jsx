@@ -35,6 +35,7 @@ function App() {
 
   return (
     <>
+      <h2>Search Asteroids Nearing Earth</h2>
       <div
         style={{
           display: "flex",
@@ -42,13 +43,13 @@ function App() {
           alignItems: "center",
         }}
       >
-        <h2>Select Start Date</h2>
+        <h3>Select Start Date</h3>
         <ReactDatePicker
           selected={startDate}
           onChange={(date) => handleStartDateChange(date)}
           dateFormat="yyyy-MM-dd"
         />
-        <h2>Select End Date</h2>
+        <h3>Select End Date</h3>
         <ReactDatePicker
           selected={endDate}
           onChange={(date) => handleEndDateChange(date)}
