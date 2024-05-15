@@ -34,8 +34,10 @@ export async function getClosebyAsteroids(
   startDate,
   endDate,
   apiKey,
-  setAsteroids
+  setAsteroids,
+  setLoading
 ) {
+  setLoading(true);
   try {
     const response = await fetchData(url, startDate, endDate, apiKey);
     const asteroids = extractAsteroids(response);
@@ -43,6 +45,8 @@ export async function getClosebyAsteroids(
   } catch (error) {
     //add at least alert
     console.error("Error fetching data:", error);
+  } finally {
+    setLoading(false);
   }
 }
 

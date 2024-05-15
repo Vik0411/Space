@@ -8,6 +8,7 @@ import AsteroidsTable from "./AsteroidsTable";
 function App() {
   const [asteroids, setAsteroids] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   //prefilled on start
   const today = new Date();
@@ -58,15 +59,25 @@ function App() {
           type="submit"
           disabled={isDisabled}
           onClick={() => {
-            //add loading component for the wait
-            getClosebyAsteroids(url, startDate, endDate, apiKey, setAsteroids);
+            getClosebyAsteroids(
+              url,
+              startDate,
+              endDate,
+              apiKey,
+              setAsteroids,
+              setLoading
+            );
           }}
         >
           submit
         </button>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </div>
-      <AsteroidsTable asteroids={asteroids} />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <AsteroidsTable asteroids={asteroids} />
+      )}
     </>
   );
 }
