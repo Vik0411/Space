@@ -3,6 +3,7 @@ import "./App.css";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { checkInterval, apiKey, url, getClosebyAsteroids } from "./utils";
+import AsteroidsTable from "./AsteroidsTable";
 
 function App() {
   const [asteroids, setAsteroids] = useState([]);
@@ -65,42 +66,7 @@ function App() {
         </button>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </div>
-      <div>
-        {asteroids.map((asteroid) => {
-          let closeApproachData = asteroid.close_approach_data[0];
-          let sortedDistances = closeApproachData.miss_distance.kilometers;
-
-          return (
-            <table
-              style={{
-                border: "1px solid red",
-              }}
-              // correct the key
-              key={closeApproachData.miss_distance.kilometers}
-            >
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Diameter</th>
-                  <th>How far</th>
-                  <th>When</th>
-                </tr>
-              </thead>
-              <tr>
-                <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
-                <td>
-                  {
-                    asteroid.estimated_diameter.kilometers
-                      .estimated_diameter_max
-                  }
-                </td>
-                <td>{sortedDistances}</td>
-                <td>{closeApproachData.close_approach_date_full}</td>
-              </tr>
-            </table>
-          );
-        })}
-      </div>
+      <AsteroidsTable asteroids={asteroids} />
     </>
   );
 }
