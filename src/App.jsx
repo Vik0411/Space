@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import axios from "axios";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { checkInterval, apiKey, url } from "./utils";
+import { checkInterval, apiKey, url, getClosebyAsteroids } from "./utils";
 
 function App() {
   const [asteroids, setAsteroids] = useState([]);
@@ -32,28 +31,6 @@ function App() {
     checkInterval(startDate, date, setErrorMessage, setIsDisabled);
   };
 
-  async function getClosebyAsteroids() {
-    try {
-      const response = await axios.get(
-        `${url}start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`
-      );
-
-      const insideArraysOfAsteroids = Object.values(
-        response.data.near_earth_objects
-      ).flatMap((array) => array);
-
-      insideArraysOfAsteroids.sort(
-        (a, b) =>
-          Number(a.close_approach_data[0].miss_distance.kilometers) -
-          Number(b.close_approach_data[0].miss_distance.kilometers)
-      );
-
-      setAsteroids(insideArraysOfAsteroids);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
   return (
     <>
       <div
@@ -80,7 +57,8 @@ function App() {
           type="submit"
           disabled={isDisabled}
           onClick={() => {
-            getClosebyAsteroids();
+            //add loading component for the wait
+            getClosebyAsteroids(url, startDate, endDate, apiKey, setAsteroids);
           }}
         >
           submit
@@ -97,6 +75,7 @@ function App() {
               style={{
                 border: "1px solid red",
               }}
+              // correct the key
               key={closeApproachData.miss_distance.kilometers}
             >
               <thead>
