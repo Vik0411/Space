@@ -13,13 +13,13 @@ export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
 
   const intervalInDays = Math.abs((date2 - date1) / (1000 * 60 * 60 * 24));
 
-  if (intervalInDays > 7) {
+  if (date2 < date1) {
+    setErrorMessage("Start date has to be prior to end date.");
+    setIsDisabled(true);
+  } else if (intervalInDays > 7) {
     setErrorMessage(
       "Interval between dates must be less than or equal to 7 days."
     );
-    setIsDisabled(true);
-  } else if (date2 < date1) {
-    setErrorMessage("Start date has to be prior to end date.");
     setIsDisabled(true);
   } else {
     setErrorMessage("");
