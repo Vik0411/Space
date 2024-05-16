@@ -27,6 +27,7 @@ function AsteroidsTable({ asteroids }) {
             );
             let when = asteroid.close_approach_data[0].close_approach_date_full;
             return (
+              // remove index as key
               <tr key={index}>
                 <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
                 <td>{`${diamMin}-${diamMax}`}</td>
