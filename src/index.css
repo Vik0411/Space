@@ -15,6 +15,7 @@
   width: 100%; /* Adjust width and height as needed */
   height: 100%;
   background-repeat: no-repeat;
+  background-position: center;
   background-attachment: fixed;
   background-size: cover;
 }

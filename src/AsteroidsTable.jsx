@@ -1,36 +1,42 @@
 import "./App.css";
+import { roundStringToTwoDecimalPlaces } from "./utils";
 
 // eslint-disable-next-line react/prop-types
 function AsteroidsTable({ asteroids }) {
   return (
     <div>
-      {asteroids.map((asteroid) => (
-        <table key={asteroid.name} style={{ border: "1px solid red" }}>
-          <thead>
-            <tr>
-              <th>Asteroid name</th>
-              <th>Diameter (km)</th>
-              <th>Miss distance from Earth (km)</th>
-              <th>When</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* round all the numbers */}
-            <tr>
-              <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
-              <td>
-                {`${asteroid.estimated_diameter.kilometers.estimated_diameter_min}-${asteroid.estimated_diameter.kilometers.estimated_diameter_max}`}
-              </td>
-              <td>
-                {asteroid.close_approach_data[0].miss_distance.kilometers}
-              </td>
-              <td>
-                {asteroid.close_approach_data[0].close_approach_date_full}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      ))}
+      <table>
+        <thead>
+          <tr>
+            <th>Asteroid name</th>
+            <th>Diameter (km)</th>
+            <th>Miss distance from Earth (km)</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody>
+          {asteroids.map((asteroid, index) => {
+            let diamMin = roundStringToTwoDecimalPlaces(
+              asteroid.estimated_diameter.kilometers.estimated_diameter_min
+            );
+            let diamMax = roundStringToTwoDecimalPlaces(
+              asteroid.estimated_diameter.kilometers.estimated_diameter_max
+            );
+            let missDistance = roundStringToTwoDecimalPlaces(
+              asteroid.close_approach_data[0].miss_distance.kilometers
+            );
+            let when = asteroid.close_approach_data[0].close_approach_date_full;
+            return (
+              <tr key={index}>
+                <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
+                <td>{`${diamMin}-${diamMax}`}</td>
+                <td>{missDistance}</td>
+                <td>{when}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

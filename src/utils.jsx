@@ -68,3 +68,18 @@ function extractAsteroids(data) {
   );
   return insideArraysOfAsteroids;
 }
+
+export function roundStringToTwoDecimalPlaces(str) {
+  const number = parseFloat(str);
+
+  // Check if the input is a valid number
+  if (!isNaN(number)) {
+    // Round the number to two decimal places
+    const roundedNumber = parseFloat(number.toFixed(2));
+    // Convert the rounded number back to a string
+    return roundedNumber.toString();
+  } else {
+    // Return the input string if it's not a valid number
+    return str;
+  }
+}
