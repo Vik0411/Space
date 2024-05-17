@@ -53,7 +53,7 @@ function App() {
         />
         <button
           className="button"
-          type="submit"
+          type="button"
           disabled={isDisabled}
           onClick={() => {
             getClosebyAsteroids(
@@ -70,12 +70,8 @@ function App() {
           Search
         </button>
         {errorMessage && <p className="error-msg">{errorMessage}</p>}
+        <AsteroidsTable asteroids={asteroids} loading={loading} />
       </div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <AsteroidsTable asteroids={asteroids} />
-      )}
     </>
   );
 }
