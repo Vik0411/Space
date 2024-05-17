@@ -16,6 +16,7 @@ table {
   font-family: inherit;
   border-radius: 20%;
 }
+
 th,
 td {
   text-align: center;
@@ -23,4 +24,23 @@ td {
   border: 1px solid #ddd;
   width: 25%;
   background-color: rgba(2, 2, 2, 0.8);
+}
+
+h2,
+h3 {
+  text-shadow: 0px 2px 10px black;
+}
+
+.main-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  text-shadow: 0px 2px 10px black;
+}
+
+.error-msg {
+  color: red;
+  text-shadow: 2px 2px 10px red;
+  margin: 20px 10px;
+  margin-top: 0px;
 }
