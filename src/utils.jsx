@@ -46,6 +46,7 @@ export async function getClosebyAsteroids(
     }
     const asteroids = extractAsteroids(response);
     setAsteroids(asteroids);
+    console.log(asteroids);
   } catch (error) {
     //add at least alert
     console.error("Error fetching data:", error);

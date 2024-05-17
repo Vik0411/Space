@@ -1,7 +1,6 @@
 import "./App.css";
 import { roundStringToTwoDecimalPlaces } from "./utils";
 
-// eslint-disable-next-line react/prop-types
 function AsteroidsTable({ asteroids }) {
   return (
     <div>
@@ -17,7 +16,7 @@ function AsteroidsTable({ asteroids }) {
           </thead>
         )}
         <tbody>
-          {asteroids.map((asteroid, index) => {
+          {asteroids.map((asteroid) => {
             let diamMin = roundStringToTwoDecimalPlaces(
               asteroid.estimated_diameter.kilometers.estimated_diameter_min
             );
@@ -29,8 +28,7 @@ function AsteroidsTable({ asteroids }) {
             );
             let when = asteroid.close_approach_data[0].close_approach_date_full;
             return (
-              // remove index as key
-              <tr key={index}>
+              <tr key={asteroid.id}>
                 <td style={{ textDecoration: "underline" }}>{asteroid.name}</td>
                 <td>{`${diamMin}-${diamMax}`}</td>
                 <td>{missDistance}</td>
