@@ -1,4 +1,7 @@
-import { roundStringToTwoDecimalPlaces } from "./utils";
+import {
+  removeParenthesesIfFirstIsParenthesis,
+  roundStringToTwoDecimalPlaces,
+} from "./utils";
 
 function AsteroidsTable({ asteroids, loading }) {
   return (
@@ -30,10 +33,13 @@ function AsteroidsTable({ asteroids, loading }) {
               );
               let when =
                 asteroid.close_approach_data[0].close_approach_date_full;
+              let formattedName = removeParenthesesIfFirstIsParenthesis(
+                asteroid.name
+              );
               return (
                 <tr key={asteroid.id}>
                   <td style={{ textDecoration: "underline" }}>
-                    {asteroid.name}
+                    {formattedName}
                   </td>
                   <td>{`${diamMin}-${diamMax}`}</td>
                   <td>{missDistance}</td>

@@ -2,13 +2,14 @@ import axios from "axios";
 
 export const apiKey = "3lIka5CXiRJQ0hHNEPilFSSFkP8tg33KRaDeQyvM";
 export const url = "https://api.nasa.gov/neo/rest/v1/feed?";
+const bothFieldsWarn = "Please fill in both start and end date.";
 
 export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
   const date1 = new Date(start).getTime();
   const date2 = new Date(end).getTime();
 
   if (!start || !end) {
-    setErrorMessage("Please fill in both start and end date.");
+    setErrorMessage(bothFieldsWarn);
     setIsDisabled(true);
     return;
   }
@@ -40,6 +41,10 @@ export async function getClosebyAsteroids(
 ) {
   setLoading(true);
   try {
+    if (!startDate || !endDate) {
+      setErrorMessage(bothFieldsWarn);
+      return;
+    }
     const response = await fetchData(url, startDate, endDate, apiKey);
     if (response.element_count === 0) {
       setErrorMessage("Oops, no asteroid records found for this interval.");
@@ -87,4 +92,18 @@ export function roundStringToTwoDecimalPlaces(str) {
     // Return the input string if it's not a valid number
     return str;
   }
+}
+
+export const formatDate = (date) => {
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+};
+export function removeParenthesesIfFirstIsParenthesis(str) {
+  if (str.charAt(0) === "(") {
+    return str.replace(/[()]/g, "");
+  }
+  return str;
 }
