@@ -6,14 +6,16 @@ function AsteroidsTable({ asteroids }) {
   return (
     <div>
       <table>
-        <thead>
-          <tr>
-            <th>Asteroid name</th>
-            <th>Diameter (km)</th>
-            <th>Miss distance from Earth (km)</th>
-            <th>When</th>
-          </tr>
-        </thead>
+        {asteroids[0] && (
+          <thead>
+            <tr>
+              <th>Asteroid name</th>
+              <th>Diameter (km)</th>
+              <th>Miss distance from Earth (km)</th>
+              <th>When</th>
+            </tr>
+          </thead>
+        )}
         <tbody>
           {asteroids.map((asteroid, index) => {
             let diamMin = roundStringToTwoDecimalPlaces(

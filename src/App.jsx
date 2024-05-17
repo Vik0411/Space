@@ -35,28 +35,49 @@ function App() {
 
   return (
     <>
-      <h2>Search Asteroids Nearing Earth</h2>
+      <h2
+        style={{
+          textShadow: "0px 2px 10px black" /* Add text shadow */,
+        }}
+      >
+        Search Asteroids Nearing Earth
+      </h2>
       <div
         style={{
           display: "flex",
           flexFlow: "column",
           alignItems: "center",
+          textShadow: "0px 2px 10px black" /* Add text shadow */,
         }}
       >
-        <h3>Select Start Date</h3>
+        <h3
+          style={{
+            textShadow: "0px 2px 10px black" /* Add text shadow */,
+          }}
+        >
+          Select Start Date
+        </h3>
         <ReactDatePicker
+          className="datepicker"
           selected={startDate}
           onChange={(date) => handleStartDateChange(date)}
           dateFormat="yyyy-MM-dd"
         />
-        <h3>Select End Date</h3>
+        <h3
+          style={{
+            textShadow: "0px 2px 10px black" /* Add text shadow */,
+          }}
+        >
+          Select End Date
+        </h3>
         <ReactDatePicker
+          className="datepicker"
           selected={endDate}
           onChange={(date) => handleEndDateChange(date)}
           dateFormat="yyyy-MM-dd"
         />
         <button
-          style={{ width: "100px", textAlign: "center", margin: "20px 20px" }}
+          className="button"
           type="submit"
           disabled={isDisabled}
           onClick={() => {
@@ -66,13 +87,24 @@ function App() {
               endDate,
               apiKey,
               setAsteroids,
-              setLoading
+              setLoading,
+              setErrorMessage
             );
           }}
         >
-          submit
+          Search
         </button>
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && (
+          <p
+            style={{
+              color: "red",
+              textShadow: "10px 10px 10px red" /* Add text shadow */,
+              marginTop: "4px",
+            }}
+          >
+            {errorMessage}
+          </p>
+        )}
       </div>
       {loading ? (
         <div>Loading...</div>

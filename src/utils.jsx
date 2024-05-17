@@ -35,11 +35,15 @@ export async function getClosebyAsteroids(
   endDate,
   apiKey,
   setAsteroids,
-  setLoading
+  setLoading,
+  setErrorMessage
 ) {
   setLoading(true);
   try {
     const response = await fetchData(url, startDate, endDate, apiKey);
+    if (response.element_count === 0) {
+      setErrorMessage("Oops, no asteroid records found for this interval.");
+    }
     const asteroids = extractAsteroids(response);
     setAsteroids(asteroids);
   } catch (error) {
