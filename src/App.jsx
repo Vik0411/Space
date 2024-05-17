@@ -3,13 +3,7 @@ import DatePicker from "./DatePicker";
 import SearchButton from "./SearchButton";
 import "react-datepicker/dist/react-datepicker.css";
 import AsteroidsTable from "./AsteroidsTable";
-import {
-  getClosebyAsteroids,
-  checkInterval,
-  apiKey,
-  url,
-  formatDate,
-} from "./utils";
+import { getClosebyAsteroids, checkInterval, formatDate } from "./utils";
 import "./App.css";
 
 function App() {
@@ -32,10 +26,8 @@ function App() {
 
   const handleSearch = () => {
     getClosebyAsteroids(
-      url,
       startDate,
       endDate,
-      apiKey,
       setAsteroids,
       setLoading,
       setErrorMessage

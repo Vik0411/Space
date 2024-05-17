@@ -1,7 +1,5 @@
 import axios from "axios";
 
-export const apiKey = "3lIka5CXiRJQ0hHNEPilFSSFkP8tg33KRaDeQyvM";
-export const url = "https://api.nasa.gov/neo/rest/v1/feed?";
 const bothFieldsWarn = "Please fill in both start and end date.";
 
 export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
@@ -31,10 +29,8 @@ export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
 };
 
 export async function getClosebyAsteroids(
-  url,
   startDate,
   endDate,
-  apiKey,
   setAsteroids,
   setLoading,
   setErrorMessage
@@ -45,7 +41,7 @@ export async function getClosebyAsteroids(
       setErrorMessage(bothFieldsWarn);
       return;
     }
-    const response = await fetchData(url, startDate, endDate, apiKey);
+    const response = await fetchData(startDate, endDate);
     if (response.element_count === 0) {
       setErrorMessage("Oops, no asteroid records found for this interval.");
     }
@@ -60,9 +56,9 @@ export async function getClosebyAsteroids(
   }
 }
 
-async function fetchData(url, startDate, endDate, apiKey) {
+async function fetchData(startDate, endDate) {
   const response = await axios.get(
-    `${url}start_date=${startDate}&end_date=${endDate}&api_key=${apiKey}`
+    `/api/neo?start_date=${startDate}&end_date=${endDate}`
   );
   return response.data;
 }
