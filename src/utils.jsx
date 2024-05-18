@@ -2,9 +2,17 @@ import axios from "axios";
 
 const bothFieldsWarn = "Please fill in both start and end date.";
 
+function getDateWithoutTime(date) {
+  const dateWithoutTime = new Date(date);
+  dateWithoutTime.setHours(0, 0, 0, 0);
+  return dateWithoutTime;
+}
+
 export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
-  const date1 = new Date(start).getTime();
-  const date2 = new Date(end).getTime();
+  const date1 = new Date(start);
+  const date1NoTime = getDateWithoutTime(date1);
+  const date2 = new Date(end);
+  const date2NoTime = getDateWithoutTime(date2);
 
   if (!start || !end) {
     setErrorMessage(bothFieldsWarn);
@@ -12,9 +20,11 @@ export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
     return;
   }
 
-  const intervalInDays = Math.abs((date2 - date1) / (1000 * 60 * 60 * 24));
+  const intervalInDays = Math.abs(
+    (date2NoTime - date1NoTime) / (1000 * 60 * 60 * 24)
+  );
 
-  if (date2 < date1) {
+  if (date2NoTime < date1NoTime) {
     setErrorMessage("Start date has to be prior to end date.");
     setIsDisabled(true);
   } else if (intervalInDays > 7) {

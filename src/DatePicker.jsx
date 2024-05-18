@@ -6,7 +6,7 @@ const DatePicker = ({ label, selectedDate, onChange }) => (
     <h3>{label}</h3>
     <ReactDatePicker
       className="datepicker"
-      selected={selectedDate ? new Date(selectedDate) : null}
+      selected={selectedDate}
       onChange={onChange}
       placeholderText="yyyy-mm-dd"
       dateFormat="yyyy-MM-dd"
