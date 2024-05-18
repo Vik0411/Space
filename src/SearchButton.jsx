@@ -1,6 +1,6 @@
 const SearchButton = ({ isDisabled, onClick }) => (
   <button
-    className="button"
+    className="search-button"
     type="button"
     disabled={isDisabled}
     onClick={onClick}

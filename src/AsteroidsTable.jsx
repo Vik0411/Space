@@ -8,7 +8,7 @@ function AsteroidsTable({ asteroids, loading }) {
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <div className="loading">Loading...</div>
       ) : (
         <table>
           {asteroids.length > 0 && (
