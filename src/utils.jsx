@@ -8,6 +8,27 @@ function getDateWithoutTime(date) {
   return dateWithoutTime;
 }
 
+export function formatNumberWithSpaces(numberString) {
+  // Convert number string to number, and then to string (to remove leading zeros)
+  const number = Number(numberString).toString();
+
+  // Split into integer and decimal parts
+  const [integerPart, decimalPart] = number.split(".");
+
+  // Add spaces between every three digits in the integer part
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    " "
+  );
+
+  // Combine integer and decimal parts, if any
+  const formattedNumber = decimalPart
+    ? `${formattedIntegerPart}.${decimalPart}`
+    : formattedIntegerPart;
+
+  return formattedNumber;
+}
+
 export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
   const date1 = new Date(start);
   const date1NoTime = getDateWithoutTime(date1);

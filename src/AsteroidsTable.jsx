@@ -1,4 +1,5 @@
 import {
+  formatNumberWithSpaces,
   removeParenthesesIfFirstIsParenthesis,
   roundStringToTwoDecimalPlaces,
 } from "./utils";
@@ -38,11 +39,9 @@ function AsteroidsTable({ asteroids, loading }) {
               );
               return (
                 <tr key={asteroid.id}>
-                  <td style={{ textDecoration: "underline" }}>
-                    {formattedName}
-                  </td>
+                  <td style={{ fontWeight: "bold" }}>{formattedName}</td>
                   <td>{`${diamMin}-${diamMax}`}</td>
-                  <td>{missDistance}</td>
+                  <td>{formatNumberWithSpaces(missDistance)}</td>
                   <td>{when}</td>
                 </tr>
               );
