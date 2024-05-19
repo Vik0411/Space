@@ -21,8 +21,8 @@ app.get("/api/neo", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({ error: "Failed to fetch data from NASA API" });
+    console.error(error);
+    res.status(500).json({ error: error });
   }
 });
 

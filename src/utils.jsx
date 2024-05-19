@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const bothFieldsWarn = "Please fill in both start and end date.";
-
 function getDateWithoutTime(date) {
   const dateWithoutTime = new Date(date);
   dateWithoutTime.setHours(0, 0, 0, 0);
@@ -80,8 +79,7 @@ export async function getClosebyAsteroids(
     setAsteroids(asteroids);
     console.log(asteroids);
   } catch (error) {
-    //add at least alert
-    console.error("Error fetching data:", error);
+    alert(`Error fetching data: "${error.response.data.error}"`);
   } finally {
     setLoading(false);
   }
@@ -109,14 +107,10 @@ function extractAsteroids(data) {
 export function roundStringToTwoDecimalPlaces(str) {
   const number = parseFloat(str);
 
-  // Check if the input is a valid number
   if (!isNaN(number)) {
-    // Round the number to two decimal places
     const roundedNumber = parseFloat(number.toFixed(2));
-    // Convert the rounded number back to a string
     return roundedNumber.toString();
   } else {
-    // Return the input string if it's not a valid number
     return str;
   }
 }

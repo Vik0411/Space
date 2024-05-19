@@ -53,5 +53,4 @@ function AsteroidsTable({ asteroids, loading }) {
   );
 }
 
-// really default?
 export default AsteroidsTable;

@@ -1,8 +1,9 @@
-# React + Vite
+# Asteroid Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Little application for searching getting basic data about closest asteroids to Earth in given date interval.
 
-Currently, two official plugins are available:
+It was implemented via Vite.js in React on frontend and Node.js on the backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can start the app by commands "npm run dev" and "node server.js" to get both up running.
+
+Further dependecies used: react-datepicker for easy input of dates, node-fetch, axios, cors to successfully fetch the data.
