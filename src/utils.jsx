@@ -58,6 +58,20 @@ export const checkInterval = (start, end, setErrorMessage, setIsDisabled) => {
   }
 };
 
+function extractErrorMessage(errorResponse) {
+  if (errorResponse?.error && errorResponse?.details) {
+    return `${errorResponse.error}: ${JSON.stringify(errorResponse.details)}`;
+  } else if (errorResponse?.response?.data?.details) {
+    return JSON.stringify(errorResponse.response.data.details);
+  } else if (errorResponse?.error) {
+    return errorResponse.error;
+  } else if (errorResponse?.message) {
+    return errorResponse.message;
+  } else {
+    return JSON.stringify(errorResponse || "Unknown error");
+  }
+}
+
 export async function getClosebyAsteroids(
   startDate,
   endDate,
@@ -75,11 +89,17 @@ export async function getClosebyAsteroids(
     if (response.element_count === 0) {
       setErrorMessage("Oops, no asteroid records found for this interval.");
     }
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      const errorMessage = extractErrorMessage(errorResponse);
+      throw new Error(errorMessage);
+    }
     const asteroids = extractAsteroids(response);
     setAsteroids(asteroids);
     console.log(asteroids);
   } catch (error) {
-    alert(`Error fetching data: "${error.message}"`);
+    alert(`Error occured: ${extractErrorMessage(error)}`);
   } finally {
     setLoading(false);
   }
