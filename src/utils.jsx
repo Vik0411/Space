@@ -90,15 +90,11 @@ export async function getClosebyAsteroids(
       setErrorMessage("Oops, no asteroid records found for this interval.");
     }
 
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      const errorMessage = extractErrorMessage(errorResponse);
-      throw new Error(errorMessage);
-    }
     const asteroids = extractAsteroids(response);
     setAsteroids(asteroids);
     console.log(asteroids);
   } catch (error) {
+    console.error(error);
     alert(`Error occured: ${extractErrorMessage(error)}`);
   } finally {
     setLoading(false);
