@@ -79,7 +79,7 @@ export async function getClosebyAsteroids(
     setAsteroids(asteroids);
     console.log(asteroids);
   } catch (error) {
-    alert(`Error fetching data: "${error.response.data.error}"`);
+    alert(`Error fetching data: "${error.message}"`);
   } finally {
     setLoading(false);
   }
