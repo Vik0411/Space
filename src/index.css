@@ -23,11 +23,11 @@ html {
   background-color: #2b2c2e;
   color: white;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: inherit;
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
+  padding: 4px 7px;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
   text-align: center;
@@ -59,7 +59,7 @@ html {
   }
 
   .main-container {
-    padding: 1rem;
+    padding: 5px;
   }
 
   .search-button {
